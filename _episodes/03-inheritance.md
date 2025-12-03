@@ -3,7 +3,7 @@ title: "Inheritance"
 teaching: 20
 exercises: 20
 questions:
-- "How can classe relationships where one represents a specific subset
+- "How can class relationships where one represents a specific subset
 of another be represented?"
 - "How can functionality on one class be overridden or extended by its
 children?"
