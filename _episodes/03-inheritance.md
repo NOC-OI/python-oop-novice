@@ -114,7 +114,7 @@ print(some_shape.perimeter())
 Now, we know more about triangles than we do about generic polygons,
 so we can create a specialised subclass of `Polygon` called
 `Triangle`. For example, for a triangle of sides \\(a\\), \\(b\\), and \\(c\\),
-Heron's formula states that the perimeter of the triangle is given by
+Heron's formula states that the area of the triangle is given by
 \\(\sqrt{p(p-a)(p-b)(p-c)}\\), where \\(p=\frac{1}{2}(a+b+c)\\).
 
 ~~~
