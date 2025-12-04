@@ -99,7 +99,7 @@ So far, this hasn't done anything that we couldn't have done with a function
 to perform the setup and then do the plot&mdash;perhaps something like:
 
 ~~~
-def quadratic_plot(a, b, c, color="red"", linewidth=1):
+def quadratic_plot(a, b, c, color="red", linewidth=1):
     """Plot the line a * x ** 2 + b * x + c and output to the screen.
     x runs between -10 and 10, with 1000 intermediary points.
     The line is plotted in the colour specified by color, and with width
