@@ -556,7 +556,6 @@ all other issues, which are then handled by the more general `Exception`.
 >
 > Polymorphism
 > : This is a way of writing a method so that it can be used with objects of different types.
-
 {: .callout}
 
 {% include links.md %}
