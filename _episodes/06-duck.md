@@ -9,6 +9,7 @@ questions:
 objectives:
 - "Understand how duck typing works, and how interfaces assist with
   understanding this."
+- "Understand polymorphism and how Python supports it implicitly."
 - "Understand the circumstances where inheritance can be a hindrance
   rather than a help."
 - "Be aware of concepts such as composition which can help where
@@ -16,6 +17,8 @@ objectives:
 keypoints:
 - "Provided a class exposes all required functionality for an
   operation to work, Python allows it."
+- "Polymorphism means different types can be used interchangeably if they
+  provide the expected behaviour."
 - "Only use inheritance to express relationships where the subclass is
   the same kind of thing as the superclass."
 - "Implementing interfaces and adding functionality with composition
@@ -30,110 +33,88 @@ alt="Photograph of a duck and three ducklings on a body of
 water" caption="These ducks are swimming and look like ducks, although
 the quacking can't be guaranteed from this image."%}
 
-Python's type system adopts a similar philosophy&mdash;if it looks,
-swims, and quacks like a duck, and that's the only duck-like aspects
-that we need at a particular time, then as far as Python is concerned,
-then it _is_ a duck.
+<br/>
 
-For example, the Newton&ndash;Raphson method solves equations of the form
-\\(f(x)=0\\) iteratively from a starting point \\(x_0\\) as
-\\[x_{n+1}=x_n - \frac{f(x_n)}{f'(x_n)}\;.\\]
-We could implement this in Python as:
+Python’s type system works the same way. If an object behaves in the way we
+need, Python usually doesn’t care what type it actually is.
+
+This is an example of duck typing, and it is closely related to polymorphism:
+**the ability to use different types interchangeably as long as they provide the
+required methods or behaviour.**
+
+Below is a function that assumes only one behaviour: the object must be
+repeatable (support * with an integer):
 
 ~~~
-def newton(function, derivative, initial_estimate, num_iters=10):
-    """Solves the equation `function`(x) == 0 using the Newton–Raphson
-    method with `num_iters` iterations, starting from `initial_estimate`.
-    `derivative` is the derivative of `function` with respect to x."""
-
-    current_estimate = initial_estimate
-    for _ in range(num_iters):
-        current_estimate = (
-            current_estimate
-            - function(current_estimate) / derivative(current_estimate)
-        )
-    return current_estimate
+def repeat_twice(x):
+    """Returns two copies of x concatenated together."""
+    return x * 2
 ~~~
 {: .language-python}
 
-This clearly works with functions that operate on and return real
-numbers.
+It works with numbers:
 
 ~~~
-from math import sin, cos
-
-print(newton(sin, cos, 1))
-print(newton(sin, cos, 2))
-print(newton(sin, cos, 1.5))
+print(repeat_twice(10))
+print(repeat_twice(3.141592653589793))
 ~~~
 {: .language-python}
 
 ~~~
-0.0
-3.141592653589793
--12.566370614359172
+20
+6.283185307179586
 ~~~
 {: .output}
 
-If you only planned for this to work with real numbers, you might
-think of adding a check at the start of the function that the
-`initial_estimate` given is a real number, or that each successive
-`current_estimate` is real. However, if we think about this in a duck
+
+If you only planned for this to work with numbers, you might
+think of adding a check at the start of the function to check the input value.
+However, if we think about this in a duck
 typed way, we don't really need to care about this&mdash;provided that
-the values can be subtracted and divided, and `function` and
-`derivative` can operate on them, then the algorithm will work.
+the values can be multiplied by an integer, then the algorithm will work.
 
 This means that we can apply this function to cases we may not have
-considered. For example, when \\(f(z)\\) is a polynomial, then
-plotting the solution \\(z_n\\) (which is now a complex number) obtained
-as a function of the initial estimate \\(z_0\\) gives us Newton's
-fractal.
+considered. For example, with strings:
 
 ~~~
-%matplotlib inline
-from numpy import angle, linspace, newaxis, pi
-from matplotlib.pyplot import colorbar, show, subplots
-
-def complex_linspace(lower, upper, num_real, num_imag):
-    real_space = linspace(lower.real, upper.real, num_real)
-    imag_space = linspace(lower.imag, upper.imag, num_imag) * 1J
-    return real_space + imag_space[:, newaxis]
-
-def test_polynomial(x):
-    return x ** 3 - 1
-
-def test_derivative(x):
-    return 3 * x ** 2
-
-
-z_min = -1 - 1J
-z_max = 1 + 1J
-initial_z = complex_linspace(z_min, z_max, 1000, 1000)
-
-results = newton(test_polynomial, test_derivative, initial_z, 20)
-
-fig, ax = subplots()
-image = ax.imshow(
-    angle(results),
-    vmin=-3,
-    vmax=3,
-    extent=(z_min.real, z_max.real, z_min.imag, z_max.imag),
-)
-cbar = colorbar(image, ax=ax, ticks=(-2*pi/3, 0, 2*pi/3))
-cbar.set_label(r"$\arg(z_n)$")
-cbar.ax.set_yticklabels((r"$-\frac{2\pi}{3}$", "0", r"$\frac{2\pi}{3}$"))
-ax.set_xlabel(r"$\operatorname{Re}(z_0)$")
-ax.set_ylabel(r"$\operatorname{Im}(z_0)$")
-
-show()
+print(repeat_twice("Quack! "))
 ~~~
 {: .language-python}
 
-Because our Newton&ndash;Raphson function was duck typed, it
-automatically worked for this problem, despite this problem requiring
-Numpy arrays of complex numbers rather than the real numbers we
-thought we were writing for.
+~~~
+Quack! Quack!
+~~~
+{: .output}
 
+Or with lists:
+
+~~~
+print(repeat_twice([1, 2, 3]))
+~~~
+{: .language-python}
+
+~~~
+[1, 2, 3, 1, 2, 3]
+~~~
+{: .output}
+
+Python doesn’t ask whether something is a number, string or list.
+It simply asks: “Does this object support multiplication by an integer?”
+
+If yes, the operation works. This is duck typing and polymorphism in action.
+
+If we tried to enforce types manually, we would lose flexibility. For example,
+imagine writing this check:
+
+~~~
+if not isinstance(x, int):
+    raise TypeError("x must be an integer")
+~~~
+{: .language-python}
+
+Then strings and lists would unnecessarily stop working, even though the function could handle them.
+
+Duck typing lets our functions stay general and reusable.
 
 ## Protocols
 
@@ -156,26 +137,23 @@ must have two methods:
   are no more items, then this should raise the `StopIteration`
   exception, and successive calls should keep raising this exception.
 
-For instance, an iterator that returns the Fibonacci numbers up to
-some upper bound may look something like:
+For instance, an iterator that yields numbers 1 through n may look
+something like:
 
 ~~~
-class FibonacciIterator:
-    def __init__(self, max_value):
-        self.max_value = max_value
-        self.last_two_numbers = (1, 0)
+class CountToN:
+    def __init__(self, n):
+        self.n = n
+        self.current = 0
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        next_number = sum(self.last_two_numbers)
-
-        if self.max_value < next_number:
+        if self.current >= self.n:
             raise StopIteration
-        else:
-            self.last_two_numbers = (self.last_two_numbers[1], next_number)
-            return next_number
+        self.current += 1
+        return self.current
 ~~~
 {: .language-python}
 
@@ -184,25 +162,25 @@ the `for` loop, since we want to initialise it with a
 `max_value`. Testing this:
 
 ~~~
-for number in FibonacciIterator(100):
+for number in CountToN(5):
     print(number)
 ~~~
 {: .language-python}
 
 ~~~
 1
-1
 2
 3
+4
 5
-8
-13
-21
-34
-55
-89
 ~~~
 {: .output}
+
+> ## Polymorphism again
+>
+> Any class implementing the iterator protocol can be used in a for loop.
+> Python doesn’t care what it is, only what it does.
+{: .callout}
 
 > ## Triangular numbers
 >
@@ -277,22 +255,19 @@ formalise the requirements we place on our interfaces in code. An
 _abstract base class_ is a class that must be inherited from&mdash;you
 can't create instances of it directly. Python provides these for many
 of its protocols in the `collections.abc` module. For example, the
-Fibonacci iterator above could inherit from `abc.Iterator`. This would
+CountToN iterator above could inherit from `abc.Iterator`. This would
 allow other code to check in advance that it supports the protocol,
 and also would guard against us forgetting to implement some part of
 the protocol. For example, if we forgot the `__next__()` method:
 
 ~~~
 from collections.abc import Iterator
-class FibonacciIterator(Iterator):
-    def __init__(self, max_value):
-        self.max_value = max_value
-        self.last_two_numbers = (1, 0)
+class CountToN(Iterator):
+    def __init__(self, n):
+        self.n = n
+        self.current = 0
 
-    def __iter__(self):
-        return self
-
-for number in FibonacciIterator(100):
+for number in CountToN(5):
     print(number)
 ~~~
 {: .language-python}
@@ -302,12 +277,12 @@ In this case Python gives us an error:
 ~~~
 TypeError                                 Traceback (most recent call last)
 <ipython-input-3-a96ac2788df3> in <module>
-      5         self.last_two_numbers = (1, 0)
-      6
-----> 7 for number in FibonacciIterator(100):
+      4         self.n = n
+      5         self.current = 0
+----> 7 for number in CountToN(5):
       8     print(number)
 
-TypeError: Can't instantiate abstract class FibonacciIterator with abstract methods __next__
+TypeError: Can't instantiate abstract class CountToN with abstract methods __next__
 ~~~
 {: .output}
 
@@ -368,50 +343,40 @@ classes that group together the related functionality.
 An example of a library that makes heavy use of composition is the
 Matplotlib object-oriented API. While Matplotlib makes its `pyplot`
 API available for basic plotting, it is built on top of a very
-intricate hierarchy of classes and objects. Those who want more
-control over their plots are encouraged to use this interface instead
-of the simplified `pyplot` version.
+intricate hierarchy of classes and objects.
 
-To get a feel for how Matplotlib uses composition to separate its
-concerns while having a large amount of functionality, we can write a
-small test function to recursively walk through a member variables of
-an object that are themselves instances of a non-builtin class.
-
+Here is a example using composition instead of inheritance:
 ~~~
-from matplotlib.pyplot import subplots
+class Multiplier:
+    def __init__(self, factor):
+        self.factor = factor
 
-def traverse_objects(base_object, level=0, max_level=5):
-    """Recursively walk through the member variables of base_object,
-    and print out information about each that is an instance of a
-    non-built-in class. max_level controls the depth that the
-    recursion may continue to, to avoid infinite loops."""
+    def apply(self, x):
+        return x * self.factor
 
-    if hasattr(base_object, "__dict__") and level < max_level:
-        for child_name, child_object in vars(base_object).items():
-            if child_object.__class__.__module__ != "builtins":
-                print(" " * level, child_name, ":", type(child_object))
-                traverse_objects(child_object, level=level+1)
+class Calculator:
+    def __init__(self, multiplier):
+        self.multiplier = multiplier
 
+    def double(self, x):
+        return self.multiplier.apply(x)
 
-# Create a simple plot
-fig, ax = subplots()
-ax.scatter([1, 2, 3], [1, 4, 9])
-ax.scatter([1, 1.5, 2, 2.5, 3], [1, 1, 2, 3, 5])
-
-# Inspect the object hierarchy of ths figure object
-traverse_objects(fig)
+calc = Calculator(Multiplier(2))
+print(calc.double(10))
 ~~~
 {: .language-python}
 
-This gives a lot of output&mdash;72 lines, so in principle 72
-different classes are combining here. In practice this number is not
-accurate; there is some duplication in this list, since for example
-both `canvas` and `patch` have a `figure` member variable so that they
-can refer back to the `Figure` that they work with. Conversely, this
-simple traversal ignores some additional composition; for example,
-`fig._axstack._elements` is a list of tuples, but within some of those
-tuples are more objects of type `matplotlib.gridspec.SubplotSpec` and
-`matplotlib.axes._subplots.AxesSubplot`.
+~~~
+20
+~~~
+{: .output}
+
+You can see that the `Calculator` class doesn't need to know how
+multiplication works; it simply relies on the `Multiplier` class to
+handle that. This means that if we wanted to change how multiplication
+worked, we could do so by changing the `Multiplier` class, or by
+passing in a different class that implemented the same interface as
+`Multiplier`.
 
 This is why when you have errors in your code, tracebacks from some
 libraries can be quite long. Having lots of small methods in classes
