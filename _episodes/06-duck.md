@@ -394,7 +394,7 @@ def traverse_objects(base_object, level=0, max_level=5):
 
 
 # Create a simple plot
-fig, ax = plt.subplots()
+fig, ax = subplots()
 ax.scatter([1, 2, 3], [1, 4, 9])
 ax.scatter([1, 1.5, 2, 2.5, 3], [1, 1, 2, 3, 5])
 
