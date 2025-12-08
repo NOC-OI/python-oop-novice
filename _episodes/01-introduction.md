@@ -541,5 +541,23 @@ matches the class being tested for. The more specific `ZeroDivisionError`
 catches the specific case of dividing by zero, but the block is skipped for
 all other issues, which are then handled by the more general `Exception`.
 
+> ## Abstraction, Encapsulation, Inheritance and Polymorphism
+>
+> We've just talked about inheritance, but when you start to learn object oriented programming, there are four common terms you will come across, inheritance being one of them. The others are abstraction, encapsulation and polymorphism. We won't spend a lot of time now talking about the meanings of these, but we should briefly introduce them, so that you are familiar. (All of these topics will be discussed later in the course.)
+>
+> Inheritance
+> : As we've just discussed, inheritance means that a class (in this case, a subclass) can derive variables and methods from another class.
+>
+> Abstraction
+> : This refers to generalising and hiding the way that a method has been implemented in order to simplify things.
+>
+> Encapsulation
+> : This refers to having a class that contains both data and the ways to interact with that data, whilst 'hiding' data that the user or other parts of the code doesn't need to know. This involves restricting access to variables.
+>
+> Polymorphism
+> : This is a way of writing a method so that it can be used with objects of different types.
+
+{: .callout}
+
 {% include links.md %}
 
