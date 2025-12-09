@@ -238,13 +238,6 @@ for number in CountToN(5):
 > {: .solution}
 {: .challenge}
 
-> ## Over to you
->
-> Thinking about your own research software, what kind of places might
-> an interface be useful to better codify how different parts of the
-> software interact?
-{: .challenge}
-
 
 ## Abstract base classes
 
