@@ -238,7 +238,8 @@ Line width of blue plotter is 5
 >
 > ~~~
 > from scipy.odr import ODR, Model, RealData
-> from matplotlib.pyplot import show
+> from matplotlib.pyplot import show, subplots
+> from numpy import linspace
 >
 > def linear(params, x):
 >     return params[0] * x + params[1]
@@ -315,6 +316,9 @@ Line width of blue plotter is 5
 >> ## Solution
 >>
 >> ~~~
+>> from scipy.odr import ODR, Model, RealData
+>> from matplotlib.pyplot import show, subplots
+>> from numpy import linspace
 >> class FitterPlotter:
 >>     x_data = None
 >>     y_data = None
@@ -473,6 +477,10 @@ usable, rather than deferring these errors to a long way down the line.
 >> ## Solution
 >>
 >> ~~~
+>> from matplotlib.colors import is_color_like
+>> from numpy import linspace
+>> from matplotlib.pyplot import show, subplots
+>>
 >> class QuadraticPlotter:
 >>     def __init__(self, color='red', linewidth=1, x_min=-10, x_max=10):
 >>         '''Set the initial attributes of this plotter.'''
@@ -518,6 +526,10 @@ usable, rather than deferring these errors to a long way down the line.
 >> ## Solution
 >>
 >> ~~~
+>> from scipy.odr import ODR, Model, RealData
+>> from matplotlib.pyplot import show, subplots
+>> from numpy import linspace
+>>
 >> class FitterPlotter:
 >>     fit_result = None
 >>
