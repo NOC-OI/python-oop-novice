@@ -319,6 +319,9 @@ Line width of blue plotter is 5
 >> from scipy.odr import ODR, Model, RealData
 >> from matplotlib.pyplot import show, subplots
 >> from numpy import linspace
+>> def linear(params, x):
+>>     return params[0] * x + params[1]
+>>
 >> class FitterPlotter:
 >>     x_data = None
 >>     y_data = None

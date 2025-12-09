@@ -381,7 +381,7 @@ increasingly complex and build up functionality in layers.
 >> {: .language-python}
 > {: .solution}
 {: .challenge}
-
+<!--
 > ## More general function plotters
 >
 > Taking this a step further, write a more general `FunctionPlotter`
@@ -437,4 +437,4 @@ increasingly complex and build up functionality in layers.
 >> `PolynomialPlotter` is a useful way of
 >> parametrising functions without having to pass arguments every time.
 > {: .solution}
-{: .challenge}
+{: .challenge} -->
