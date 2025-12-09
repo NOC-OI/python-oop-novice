@@ -114,8 +114,6 @@ if not isinstance(x, int):
 
 Then strings and lists would unnecessarily stop working, even though the function could handle them.
 
-Duck typing lets our functions stay general and reusable.
-
 ## Protocols
 
 It is frequently useful to codify exactly what requirements are placed

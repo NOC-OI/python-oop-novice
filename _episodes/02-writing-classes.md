@@ -420,6 +420,8 @@ than being defined as part of the class definition:
 
 ~~~
 from matplotlib.colors import is_color_like
+from numpy import linspace
+from matplotlib.pyplot import show, subplots
 
 class QuadraticPlotter:
     def __init__(self, color='red', linewidth=1):
