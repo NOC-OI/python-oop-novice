@@ -283,48 +283,46 @@ class Triangle(Polygon):
 > operators, arithmetic operations like `+`, `-`, `*`, etc. can be
 > defined with methods like `__add__`, `__sub__`, and `__mul__`.
 >
-> Define a new class `ErrorBar` to represent a number with an
-> associated error in Gaussian statistics. Add `__init__`, `__repr__`,
+> If we define a new class `ErrorBar` to represent a number with an
+> associated error in Gaussian statistics. We can Add `__init__`, `__repr__`,
 > `__add__`, `__sub__`, `__mul__`, and `__truediv__` methods, making
 > the (very unreasonable) assumption that all errors are
 > uncorrelated.
 >
->> ## Solution
->>
->> ~~~
->> class ErrorBar:
->>     def __init__(self, centre, error):
->>         self.centre = centre
->>         self.error = error
->>
->>     def __repr__(self):
->>         return f"{self.centre} ± {self.error}"
->>
->>     def __add__(self, other):
->>         centre = self.centre + other.centre
->>         error = (self.error ** 2 + other.error ** 2) ** 0.5
->>         return ErrorBar(centre, error)
->>
->>     def __sub__(self, other):
->>         centre = self.centre - other.centre
->>         error = (self.error ** 2 + other.error ** 2) ** 0.5
->>         return ErrorBar(centre, error)
->>
->>     def __mul__(self, other):
->>         centre = self.centre * other.centre
->>         error = centre * ((self.error / self.centre) ** 2 +
->>                           (other.error / other.centre) ** 2) ** 0.5
->>         return ErrorBar(centre, error)
->>
->>     def __truediv__(self, other):
->>         centre = self.centre / other.centre
->>         error = centre * ((self.error / self.centre) ** 2 +
->>                           (other.error / other.centre) ** 2) ** 0.5
->>         return ErrorBar(centre, error)
->> ~~~
->> {: .language-python}
-> {: .solution}
-{: .challenge}
+>
+> ~~~
+> class ErrorBar:
+>     def __init__(self, centre, error):
+>         self.centre = centre
+>         self.error = error
+>
+>     def __repr__(self):
+>         return f"{self.centre} ± {self.error}"
+>
+>     def __add__(self, other):
+>         centre = self.centre + other.centre
+>         error = (self.error ** 2 + other.error ** 2) ** 0.5
+>         return ErrorBar(centre, error)
+>
+>     def __sub__(self, other):
+>         centre = self.centre - other.centre
+>         error = (self.error ** 2 + other.error ** 2) ** 0.5
+>         return ErrorBar(centre, error)
+>
+>     def __mul__(self, other):
+>         centre = self.centre * other.centre
+>         error = centre * ((self.error / self.centre) ** 2 +
+>                           (other.error / other.centre) ** 2) ** 0.5
+>         return ErrorBar(centre, error)
+>
+>     def __truediv__(self, other):
+>         centre = self.centre / other.centre
+>         error = centre * ((self.error / self.centre) ** 2 +
+>                           (other.error / other.centre) ** 2) ** 0.5
+>         return ErrorBar(centre, error)
+> ~~~
+> {: .language-python}
+{: .callout}
 
 
 ## Callable objects
