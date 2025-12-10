@@ -170,6 +170,38 @@ a problem when we try and decorate a function that takes arguments:
 > `perimeter` methods of the `Polygon` and `Triangle` classes from the
 > previous episode.
 >
+> For example, create the decorator `check_consistency`, and use it as follows:
+>
+> ~~~
+> class Polygon:
+>     def __init__(self, side_lengths):
+>         filtered_side_lengths = []
+>         for side_length in side_lengths:
+>             assert side_length >= 0
+>             if side_length > 0:
+>                 filtered_side_lengths.append(side_length)
+>         self.side_lengths = filtered_side_lengths
+>
+>     @check_consistency
+>     def perimeter(self):
+>         """Returns the perimeter of the polygon."""
+>         return sum(self.side_lengths)
+>
+> class Triangle(Polygon):
+>     def __init__(self, side_lengths):
+>         # Triangles have three sides
+>         super().__init__(side_lengths)
+>         assert len(self.side_lengths) == 3
+>
+>     @check_consistency
+>     def area(self):
+>         """Returns the area of the triangle."""
+>         a, b, c = self.side_lengths
+>         p = (a + b + c) / 2
+>         return (p * (p - a) * (p - b) * (p - c)) ** 0.5
+> ~~~
+> {: .language-python}
+>
 >> ## Solution
 >>
 >> ~~~
